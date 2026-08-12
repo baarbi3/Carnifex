@@ -1,18 +1,18 @@
-import { ChatInputCommandInteraction, CommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { sendEmbed } from '../../utils/embedBuilder';
 
 export const data = new SlashCommandBuilder()
-  .setName("ban")
-  .setDescription("Ban the tagged user")
+  .setName("kick")
+  .setDescription("Kick the tagged user")
   .addUserOption(option => 
     option.setName("target")
-    .setDescription("The user you want to ban")
+    .setDescription("The user you want to kick")
     .setRequired(true)
   ).addStringOption(option => 
     option.setName("reason")
-    .setDescription("Write a short reason for the ban")
+    .setDescription("Write a short reason for the kick")
     .setRequired(true)
-  ).setDefaultMemberPermissions(PermissionFlagsBits.BanMembers);
+  ).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
   if (!interaction.guild) {
@@ -25,18 +25,17 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   
   try {
     if (!target || !reason){ 
-      return interaction.reply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED");
+      return interaction.reply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
     }
-    await interaction.guild?.members.ban(target, {reason: reason});
+    await interaction.guild?.members.kick(target);
 
-    const message = sendEmbed({ title: "Banned User", description: `The user ${target} has been banned for the reason: ${reason}`});
+    const message = sendEmbed({ title: "Kicked User", description: `The user ${target} has been kicked for the reason: ${reason}`});
     await interaction.reply({ embeds: [message] })
   } catch (error) {
       console.error(error);
       await interaction.reply({ 
-          content: 'Failed to ban the user. Check my permissions or role hierarchy.', 
+          content: 'Failed to kick the user. Check my permissions or role hierarchy.', 
           ephemeral: true 
       });
   }
-
 }

@@ -2,7 +2,7 @@
   "name": "Carnifex",
   "scripts": {
     "start": "tsx --env-file=.env src/index.ts",
-    "deploy": "node --env-file=.env src/utils/deploy.ts"
+    "deploy": "tsx --env-file=.env src/utils/deploy.ts"
   },
   "dependencies": {
     "discord.js": "^14.27.0"
