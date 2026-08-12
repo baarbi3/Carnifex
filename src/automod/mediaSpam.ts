@@ -1,12 +1,22 @@
 import { Client } from "discord.js";
+import { general_chat } from "../../config"
 
 const mediaUsers = new Map<string, number>();
 
 export async function mediaSpam(client: Client) {
   client.on("messageCreate", async (message) => {
-    if (message.channel.id !== "1535628880663019630") return;
+    if (message.channel.id !== general_chat) return;
     if (message.author.bot) return;
-    if (message.attachments.size === 0) return;
+
+    const hasMedia =
+      message.attachments.size > 0 ||
+      message.embeds.some(
+        embed =>
+          embed.url?.toLowerCase().includes(".gif") ||
+          embed.image?.url?.toLowerCase().includes(".gif")
+      );
+
+    if (!hasMedia) return;
 
     const now = Date.now();
     const lastMedia = mediaUsers.get(message.author.id);

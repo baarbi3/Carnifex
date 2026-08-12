@@ -17,7 +17,7 @@ export const data = new SlashCommandBuilder()
     option.setName("duration")
     .setDescription('use length+unit, eg 10m for 10 minutes, 10s for 10 seconds same for d & h.')
     .setRequired(true)
-  ).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers);
+  ).setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
   interaction.deferReply();

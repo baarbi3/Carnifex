@@ -1,11 +1,12 @@
 import { Client } from "discord.js";
+import { general_chat } from "../../config"
 
 export async function emojiSpam(client: Client) {
   client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
 
     // General Chat only
-    if (message.channel.id !== "1535628880663019630") return;
+    if (message.channel.id !== general_chat) return;
 
     const content = message.content.trim();
 
