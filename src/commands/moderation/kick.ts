@@ -15,9 +15,10 @@ export const data = new SlashCommandBuilder()
   ).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
+  await interaction.deferReply();
   if (!interaction.guild) {
     const error = sendEmbed({ title: "Error", description: "This command is only available to guilds" })
-    return interaction.reply({embeds: [error]})
+    return interaction.editReply({embeds: [error]})
   }
 
   const target = interaction.options.getUser('target');
@@ -25,17 +26,16 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   
   try {
     if (!target || !reason){ 
-      return interaction.reply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
+      return interaction.editReply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
     }
     await interaction.guild?.members.kick(target);
 
     const message = sendEmbed({ title: "Kicked User", description: `The user ${target} has been kicked for the reason: ${reason}`});
-    await interaction.reply({ embeds: [message] })
+    await interaction.editReply({ embeds: [message] })
   } catch (error) {
       console.error(error);
-      await interaction.reply({ 
+      await interaction.editReply({ 
           content: 'Failed to kick the user. Check my permissions or role hierarchy.', 
-          ephemeral: true 
       });
   }
 }

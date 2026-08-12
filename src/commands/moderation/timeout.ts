@@ -20,6 +20,7 @@ export const data = new SlashCommandBuilder()
   ).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
+  interaction.deferReply();
   if (!interaction.guild) {
     const error = sendEmbed({ title: "Error", description: "This command is only available to guilds" })
     return interaction.reply({embeds: [error]})
@@ -31,7 +32,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   
   try {
     if (!target || !reason || !duration){ 
-      return interaction.reply("COMMAND FAILED: REASON OR TARGET OR DURATION NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
+      return interaction.editReply("COMMAND FAILED: REASON OR TARGET OR DURATION NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
     }
     let formattedDuration = convertDate(duration);
     if (!formattedDuration) return null;
@@ -45,13 +46,12 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       await user.timeout(formattedDuration, reason);    
     }
 
-    const message = sendEmbed({ title: "Timeot", description: `The user ${target} has been muted till <t:${formattedDuration}:R> because of the reason: ${reason}`});
-    await interaction.reply({ embeds: [message] })
+    const message = sendEmbed({ title: "Timeot", description: `The user ${target} has been muted till <t:${timeoutUntil}:R> because of the reason: ${reason}`});
+    await interaction.editReply({ embeds: [message] })
   } catch (error) {
       console.error(error);
-      await interaction.reply({ 
+      await interaction.editReply({ 
           content: 'Failed to timeout the user. Check my permissions or role hierarchy.', 
-          ephemeral: true 
       });
   }
 }

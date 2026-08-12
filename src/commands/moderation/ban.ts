@@ -15,9 +15,11 @@ export const data = new SlashCommandBuilder()
   ).setDefaultMemberPermissions(PermissionFlagsBits.BanMembers);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
+  await interaction.deferReply();
+
   if (!interaction.guild) {
     const error = sendEmbed({ title: "Error", description: "This command is only available to guilds" })
-    return interaction.reply({embeds: [error]})
+    return interaction.editReply({embeds: [error]})
   }
 
   const target = interaction.options.getUser('target');
@@ -25,17 +27,16 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   
   try {
     if (!target || !reason){ 
-      return interaction.reply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED");
+      return interaction.editReply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED");
     }
     await interaction.guild?.members.ban(target, {reason: reason});
 
     const message = sendEmbed({ title: "Banned User", description: `The user ${target} has been banned for the reason: ${reason}`});
-    await interaction.reply({ embeds: [message] })
+    await interaction.editReply({ embeds: [message] })
   } catch (error) {
       console.error(error);
-      await interaction.reply({ 
+      await interaction.editReply({ 
           content: 'Failed to ban the user. Check my permissions or role hierarchy.', 
-          ephemeral: true 
       });
   }
 
