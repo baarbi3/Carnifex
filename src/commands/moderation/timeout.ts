@@ -16,12 +16,13 @@ export const data = new SlashCommandBuilder()
   ).addStringOption(option => 
     option.setName("duration")
     .setDescription('use length+unit, eg 10m for 10 minutes, 10s for 10 seconds same for d & h.')
+    .setRequired(true)
   ).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
   if (!interaction.guild) {
     const error = sendEmbed({ title: "Error", description: "This command is only available to guilds" })
-    interaction.reply({embeds: [error]})
+    return interaction.reply({embeds: [error]})
   }
 
   const target = interaction.options.getUser('target');
@@ -33,6 +34,11 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       return interaction.reply("COMMAND FAILED: REASON OR TARGET OR DURATION NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
     }
     let formattedDuration = convertDate(duration);
+    if (!formattedDuration) return null;
+    
+    const timeoutUntil = Math.floor(
+      (Date.now() + formattedDuration) / 1000
+    );
 
     if (interaction.guild && formattedDuration) {
       const user = await interaction.guild.members.fetch(target.id);

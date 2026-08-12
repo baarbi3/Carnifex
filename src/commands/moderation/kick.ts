@@ -17,7 +17,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: ChatInputCommandInteraction) {
   if (!interaction.guild) {
     const error = sendEmbed({ title: "Error", description: "This command is only available to guilds" })
-    interaction.reply({embeds: [error]})
+    return interaction.reply({embeds: [error]})
   }
 
   const target = interaction.options.getUser('target');
