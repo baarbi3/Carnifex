@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits } from "discord.js";
+import { loadCommands } from "./utils/commandHandler";
 
 // Defining a fresh client
 const client = new Client({
@@ -7,6 +8,8 @@ const client = new Client({
     GatewayIntentBits.GuildMessages
   ]
 });
+
+await loadCommands(client);
 
 client.once('clientReady', () => {
   console.log(`Logged in as ${client.user?.tag}`)

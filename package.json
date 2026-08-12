@@ -1,13 +1,16 @@
 {
   "name": "Carnifex",
   "scripts": {
-    "start": "node --env-file=.env src/index.ts"
+    "start": "tsx --env-file=.env src/index.ts",
+    "deploy": "node --env-file=.env src/utils/deploy.ts"
   },
   "dependencies": {
     "discord.js": "^14.27.0"
   },
   "type": "module",
   "devDependencies": {
+    "@types/node": "^26.2.0",
+    "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   }
 }
