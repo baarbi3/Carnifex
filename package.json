@@ -1,0 +1,13 @@
+{
+  "name": "Carnifex",
+  "scripts": {
+    "start": "node --env-file=.env src/index.ts"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
