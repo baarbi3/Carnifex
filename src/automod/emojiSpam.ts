@@ -5,7 +5,7 @@ import { checkBypassRole } from "../utils/checkBypassRole";
 export async function emojiSpam(client: Client) {
   client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
-    if (!checkBypassRole(client, message)) return;
+    if (checkBypassRole(client, message)) return;
     // General Chat only
     if (message.channel.id !== general_chat) return;
 

@@ -8,7 +8,7 @@ export async function mediaSpam(client: Client) {
   client.on("messageCreate", async (message) => {
     if (message.channel.id !== general_chat) return;
     if (message.author.bot) return;
-    if (!checkBypassRole(client, message)) return;
+    if (checkBypassRole(client, message)) return;
 
     const hasMedia =
       message.attachments.size > 0 ||

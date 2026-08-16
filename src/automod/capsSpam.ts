@@ -5,7 +5,7 @@ export async function capsSpam(client: Client) {
   client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     if (message.content.length <= 50) return;
-    if (!checkBypassRole(client, message)) return;
+    if (checkBypassRole(client, message)) return;
 
     const letters = message.content.match(/[a-zA-Z]/g) ?? [];
 
