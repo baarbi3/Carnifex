@@ -20,10 +20,10 @@ export const data = new SlashCommandBuilder()
   ).setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
-  interaction.deferReply();
+  await interaction.deferReply();
   if (!interaction.guild) {
     const error = sendEmbed({ title: "Error", description: "This command is only available to guilds" })
-    return interaction.reply({embeds: [error]})
+    return interaction.editReply({embeds: [error]})
   }
 
   const target = interaction.options.getUser('target');
@@ -46,7 +46,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       await user.timeout(formattedDuration, reason);    
     }
 
-    const message = sendEmbed({ title: "Timeot", description: `The user ${target} has been muted till <t:${timeoutUntil}:R> because of the reason: ${reason}`});
+    const message = sendEmbed({ title: "Timeout", description: `The user ${target} has been muted till <t:${timeoutUntil}:R> because of the reason: ${reason}`});
     await interaction.editReply({ embeds: [message] })
   } catch (error) {
       console.error(error);
