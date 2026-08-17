@@ -11,7 +11,14 @@ export async function mediaSpam(client: Client) {
     if (checkBypassRole(client, message)) return;
 
     const hasMedia =
-      message.attachments.size > 0 ||
+      message.attachments.some(attachment => {
+        const type = attachment.contentType;
+      
+        // Ignore audio / voice messages
+        if (type?.startsWith("audio/")) return false;
+      
+        return true;
+      }) ||
       message.embeds.some(
         embed =>
           embed.url?.toLowerCase().includes(".gif") ||
