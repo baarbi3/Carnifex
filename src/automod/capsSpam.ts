@@ -16,7 +16,7 @@ export async function capsSpam(client: Client) {
     const uppercasePercentage = uppercase.length / letters.length;
 
     if (uppercasePercentage > 0.7) {
-      await message.channel.send(
+      const warning = await message.channel.send(
         `${message.author}, please stop spamming caps.`
       );
       await message.delete();
