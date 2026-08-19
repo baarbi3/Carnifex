@@ -1,6 +1,7 @@
 import { Client } from "discord.js";
 import { general_chat } from "../../config"
 import { checkBypassRole } from "../utils/checkBypassRole";
+import { sleep } from "../utils/sleep";
 
 const mediaUsers = new Map<string, number>();
 
@@ -31,11 +32,14 @@ export async function mediaSpam(client: Client) {
     const lastMedia = mediaUsers.get(message.author.id);
 
     if (lastMedia && now - lastMedia < 45_000) {
-      await message.channel.send(
+      const warning = await message.channel.send(
         `${message.author}, please wait 45 seconds before sending another attachment in general`
       );
 
       await message.delete();
+            
+      await sleep(5000);
+      await warning.delete();
     }
 
     mediaUsers.set(message.author.id, now);

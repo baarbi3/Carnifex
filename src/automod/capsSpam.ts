@@ -1,5 +1,6 @@
 import { Client } from "discord.js";
 import { checkBypassRole } from "../utils/checkBypassRole";
+import { sleep } from "../utils/sleep";
 
 export async function capsSpam(client: Client) {
   client.on("messageCreate", async (message) => {
@@ -20,6 +21,10 @@ export async function capsSpam(client: Client) {
         `${message.author}, please stop spamming caps.`
       );
       await message.delete();
+
+      await sleep(5000);
+      await warning.delete();
+
     }
   });
 }

@@ -1,6 +1,7 @@
 import { Client } from "discord.js";
 import { general_chat } from "../../config"
 import { checkBypassRole } from "../utils/checkBypassRole";
+import { sleep } from "../utils/sleep";
 
 export async function emojiSpam(client: Client) {
   client.on("messageCreate", async (message) => {
@@ -42,9 +43,13 @@ export async function emojiSpam(client: Client) {
     if (totalEmojiCount > 4) {
       await message.delete();
 
-      await message.channel.send(
+      const warning = await message.channel.send(
         "Your text was removed due to emoji spam."
       );
+
+      await sleep(5000);
+      await warning.delete();
+
     }
   });
 }
