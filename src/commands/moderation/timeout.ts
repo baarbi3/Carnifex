@@ -12,7 +12,7 @@ export const data = new SlashCommandBuilder()
   ).addStringOption(option => 
     option.setName("reason")
     .setDescription("Write a short reason for the mute")
-    .setRequired(true)
+    .setRequired(false)
   ).addStringOption(option => 
     option.setName("duration")
     .setDescription('use length+unit, eg 10m for 10 minutes, 10s for 10 seconds same for d & h.')
@@ -31,7 +31,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   const duration = interaction.options.getString('duration')
   
   try {
-    if (!target || !reason || !duration){ 
+    if (!target || !duration){ 
       return interaction.editReply("COMMAND FAILED: REASON OR TARGET OR DURATION NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
     }
     let formattedDuration = convertDate(duration);
@@ -43,10 +43,10 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     if (interaction.guild && formattedDuration) {
       const user = await interaction.guild.members.fetch(target.id);
-      await user.timeout(formattedDuration, reason);    
+      await user.timeout(formattedDuration, reason ?? "NO REASON PROVIDED");
     }
 
-    const message = sendEmbed({ title: "Timeout", description: `The user ${target} has been muted till <t:${timeoutUntil}:R> because of the reason: ${reason}`});
+    const message = sendEmbed({ title: "Timeout", description: `The user ${target} has been muted till <t:${timeoutUntil}:R> because of the reason: ${reason ? reason : 'NO REASON PROVIDED'}`});
     await interaction.editReply({ embeds: [message] })
   } catch (error) {
       console.error(error);
