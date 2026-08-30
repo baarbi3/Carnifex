@@ -30,18 +30,20 @@ export async function mediaSpam(client: Client) {
 
     const now = Date.now();
     const lastMedia = mediaUsers.get(message.author.id);
-
-    if (lastMedia && now - lastMedia < 45_000) {
-      const warning = await message.channel.send(
-        `${message.author}, please wait 45 seconds before sending another attachment in general`
-      );
-
-      await message.delete();
-            
-      await sleep(5000);
-      await warning.delete();
+        
+    if (lastMedia !== undefined && now - lastMedia < 45_000) {
+        const warning = await message.channel.send(
+            `${message.author}, please wait 45 seconds before sending another attachment in general`
+        );
+      
+        await message.delete();
+      
+        await sleep(5000);
+        await warning.delete();
+      
+        return;
     }
-
+    
     mediaUsers.set(message.author.id, now);
   });
 }
