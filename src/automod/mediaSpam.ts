@@ -30,7 +30,7 @@ export async function mediaSpam(client: Client) {
 
     const now = Date.now();
     const lastMedia = mediaUsers.get(message.author.id);
-        
+
     if (lastMedia !== undefined && now - lastMedia < 45_000) {
         const warning = await message.channel.send(
             `${message.author}, please wait 45 seconds before sending another attachment in general`
@@ -43,7 +43,7 @@ export async function mediaSpam(client: Client) {
       
         return;
     }
-    
+    ``
     mediaUsers.set(message.author.id, now);
   });
 }
