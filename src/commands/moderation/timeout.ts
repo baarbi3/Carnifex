@@ -10,13 +10,13 @@ export const data = new SlashCommandBuilder()
     .setDescription("The user you want to mute")
     .setRequired(true)
   ).addStringOption(option => 
-    option.setName("reason")
-    .setDescription("Write a short reason for the mute")
-    .setRequired(false)
-  ).addStringOption(option => 
     option.setName("duration")
     .setDescription('use length+unit, eg 10m for 10 minutes, 10s for 10 seconds same for d & h.')
     .setRequired(true)
+  ).addStringOption(option => 
+    option.setName("reason")
+    .setDescription("Write a short reason for the mute")
+    .setRequired(false)
   ).setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
