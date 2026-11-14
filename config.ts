@@ -1,2 +1,2 @@
 // REPLACE WITH THE GENERAL CHAT ID
-export const general_chat = "1564138871124394033"
+export const general_chat = "1564335263671521414"
