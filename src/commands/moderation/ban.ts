@@ -30,7 +30,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       return interaction.editReply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED");
     }
 
-    await target.dmChannel?.send(`You were banned from ${interaction.guild.name} for the reason: ${reason}`);
+    await target.send(`You were banned from ${interaction.guild.name} for the reason: ${reason}`);
     await interaction.guild?.members.ban(target, {reason: reason});
 
     const message = sendEmbed({ title: "Banned User", description: `The user ${target} has been banned for the reason: ${reason}`});

@@ -25,7 +25,8 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   const reason = interaction.options.getString('reason');
 
   try {
-    await target?.dmChannel?.send(`You were warned at ${interaction.guild.name} for the reason: ${reason}`);
+    if (!target) return;
+    await target.send(`You were warned at ${interaction.guild.name} for the reason: ${reason}`);
     const message = sendEmbed({ title: "Warn", description: `The user ${target} has been warned because of the reason: ${reason ? reason : 'NO REASON PROVIDED'}`});
     await interaction.editReply({ embeds: [message] })
   } catch (error) {
