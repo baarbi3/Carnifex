@@ -43,6 +43,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     if (interaction.guild && formattedDuration) {
       const user = await interaction.guild.members.fetch(target.id);
+      await user.dmChannel?.send(`You've been timed out at ${interaction.guild.name} for the reason: ${reason}`);
       await user.timeout(formattedDuration, reason ?? "NO REASON PROVIDED");
     }
 

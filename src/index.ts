@@ -7,8 +7,6 @@ configDotenv({
     path: "./.env"
 });
 
-
-
 // Defining a fresh client
 const client = new Client({
   intents: [

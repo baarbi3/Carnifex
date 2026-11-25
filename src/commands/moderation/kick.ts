@@ -28,6 +28,8 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     if (!target || !reason){ 
       return interaction.editReply("COMMAND FAILED: REASON OR TARGET NOT PROVIDED"); // Only adding this due to typescript crying, I don't think Discord will let such happen
     }
+
+    await target.dmChannel?.send(`You were kicked from ${interaction.guild.name} for the reason: ${reason}`);
     await interaction.guild?.members.kick(target);
 
     const message = sendEmbed({ title: "Kicked User", description: `The user ${target} has been kicked for the reason: ${reason}`});
